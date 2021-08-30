@@ -150,3 +150,22 @@ extension Int64: FNVHashable {
         withUnsafeBytes(of: self) { hasher.combine($0) }
     }
 }
+
+extension Optional: FNVHashable where Wrapped: FNVHashable {
+    public func hash<Hasher>(into hasher: inout Hasher) where Hasher : FNVHasher {
+        switch self {
+        case .some(let value):
+            hasher.combine(value)
+        case .none:
+            return
+        }
+    }
+}
+
+extension Array: FNVHashable where Element: FNVHashable {
+    public func hash<Hasher>(into hasher: inout Hasher) where Hasher : FNVHasher {
+        forEach { element in
+            hasher.combine(element)
+        }
+    }
+}

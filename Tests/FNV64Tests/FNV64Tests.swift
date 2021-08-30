@@ -159,4 +159,30 @@ class FNV64Tests: XCTestCase {
             XCTAssertEqual(hashedValue, hash(value))
         }
     }
+    
+    func testArrayHashStability() {
+        let value = (0 ... 128).map { _ in
+            Int32.random(in: .min ... .max)
+        }
+        let hashedValue = hash(value)
+        for _ in 1 ... 10 {
+            XCTAssertEqual(hashedValue, hash(value))
+        }
+    }
+    
+    func testNilOptionalHashStability() {
+        let value: Double? = nil
+        let hashedValue = hash(value)
+        for _ in 1 ... 10 {
+            XCTAssertEqual(hashedValue, hash(value))
+        }
+    }
+    
+    func testNonNilOptionalHashStability() {
+        let value: Double? = .random(in: .leastNonzeroMagnitude ... .greatestFiniteMagnitude)
+        let hashedValue = hash(value)
+        for _ in 1 ... 10 {
+            XCTAssertEqual(hashedValue, hash(value))
+        }
+    }
 }
