@@ -1,4 +1,4 @@
-// swift-tools-version:5.5
+// swift-tools-version:5.3
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -6,23 +6,43 @@ import PackageDescription
 let package = Package(
     name: "FowlerNollVo",
     products: [
-        // Products define the executables and libraries a package produces, and make them visible to other packages.
+        // The core library
         .library(
             name: "FowlerNollVo",
             targets: ["FowlerNollVo"]),
     ],
-    dependencies: [
-        // Dependencies declare other packages that this package depends on.
-        // .package(url: /* package url */, from: "1.0.0"),
-    ],
     targets: [
-        // Targets are the basic building blocks of a package. A target can define a module or a test suite.
-        // Targets can depend on other targets in this package, and on products in packages this package depends on.
+        // The target that defines the `FNVHashable` and `FNVHasher` protocols
         .target(
             name: "FowlerNollVo",
             dependencies: []),
-        .testTarget(
-            name: "FowlerNollVoTests",
+        
+        // 32-bit FNV implementations
+        .target(
+            name: "FNV32",
             dependencies: ["FowlerNollVo"]),
+        .testTarget(
+            name: "FNV32Tests",
+            dependencies: ["FNV32"]),
+        .target(
+            name: "FNV32a",
+            dependencies: ["FowlerNollVo"]),
+        .testTarget(
+            name: "FNV32aTests",
+            dependencies: ["FNV32a"]),
+        
+        // 64-bit FNV implementations
+        .target(
+            name: "FNV64",
+            dependencies: ["FowlerNollVo"]),
+        .testTarget(
+            name: "FNV64Tests",
+            dependencies: ["FNV64"]),
+        .target(
+            name: "FNV64a",
+            dependencies: ["FowlerNollVo"]),
+        .testTarget(
+            name: "FNV64aTests",
+            dependencies: ["FNV64a"]),
     ]
 )
