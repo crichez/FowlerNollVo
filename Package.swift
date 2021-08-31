@@ -10,6 +10,18 @@ let package = Package(
         .library(
             name: "FowlerNollVo",
             targets: ["FowlerNollVo"]),
+        .library(
+            name: "FNV32",
+            targets: ["FowlerNollVo", "FNV32"]),
+        .library(
+            name: "FNV32a",
+            targets: ["FowlerNollVo", "FNV32a"]),
+        .library(
+            name: "FNV64",
+            targets: ["FowlerNollVo", "FNV64"]),
+        .library(
+            name: "FNV64a",
+            targets: ["FowlerNollVo", "FNV64a"]),
     ],
     targets: [
         // The target that defines the `FNVHashable` and `FNVHasher` protocols
