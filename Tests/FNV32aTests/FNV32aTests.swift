@@ -210,6 +210,7 @@ class FNV32aTests: XCTestCase {
             hashedValues.insert(hashedValue)
         }
         let collisions = 1_000_000 - hashedValues.count
+        print("\(collisions) collisions out of 1,000,000 unique 128-bit values.")
         XCTAssertLessThanOrEqual(collisions, 130)
     }
     #endif
@@ -228,6 +229,7 @@ class FNV32aTests: XCTestCase {
             hashedValues.insert(hashedValue)
         }
         let collisions = 1_000_000 - hashedValues.count
+        print("\(collisions) collisions out of 1,000,000 unique 64-bit values.")
         XCTAssertLessThanOrEqual(collisions, 130)
     }
     
@@ -245,6 +247,7 @@ class FNV32aTests: XCTestCase {
             hashedValues.insert(hashedValue)
         }
         let collisions = 1_000_000 - hashedValues.count
+        print("\(collisions) collisions out of 1,000,000 unique 32-bit values.")
         XCTAssertLessThanOrEqual(collisions, 220)
     }
 }
