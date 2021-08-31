@@ -185,4 +185,38 @@ class FNV64aTests: XCTestCase {
             XCTAssertEqual(hashedValue, hash(value))
         }
     }
+    
+    /// Asserts that the collision rate for random 64-bit values should be 0.0000001% or less.
+    func testCollisionRate64() {
+        var values: Set<UInt64> = []
+        var hashedValues: Set<UInt64> = []
+        for _ in 1 ... 10_000_000 {
+            // Make sure all values are unique before hashing
+            var value: UInt64 = .random(in: .min ... .max)
+            while values.contains(value) { value = .random(in: .min ... .max) }
+            values.insert(value)
+            // Hash the value and store it to check for collisions
+            let hashedValue = hash(value)
+            hashedValues.insert(hashedValue)
+        }
+        let collisions = 10_000_000 - hashedValues.count
+        XCTAssertLessThanOrEqual(collisions, 1)
+    }
+
+    /// Asserts that the collision rate for random 32-bit values should be 0.0000001% or less.
+    func testCollisionRate32() {
+        var values: Set<UInt32> = []
+        var hashedValues: Set<UInt64> = []
+        for _ in 1 ... 10_000_000 {
+            // Make sure all values are unique before hashing
+            var value: UInt32 = .random(in: .min ... .max)
+            while values.contains(value) { value = .random(in: .min ... .max) }
+            values.insert(value)
+            // Hash the value and store it to check for collisions
+            let hashedValue = hash(value)
+            hashedValues.insert(hashedValue)
+        }
+        let collisions = 10_000_000 - hashedValues.count
+        XCTAssertLessThanOrEqual(collisions, 1)
+    }
 }
