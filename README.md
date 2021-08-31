@@ -1,6 +1,6 @@
 # FowlerNollVo
 
-A FNV-1 implementation in Swift. This package has no dependencies. It hash been tested on all Apple platforms, and should run natively on all Swift platforms.
+A FNV-1 implementation in Swift. This package has no dependencies. It hash been tested on all Apple platforms, and should run natively on all Swift platforms. The minimum swift-tools version to build this package is 5.0.
 
 ## Modules
 
