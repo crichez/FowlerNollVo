@@ -1,12 +1,19 @@
 # Contributing to `FowlerNollVo`
 
 This project is small and simple. We expect most contributions to relate to:
+* Bug fixes
 * Performance
 * Documentation
 * Style
 * Implementations
 
 Changes to the hash function are considered out of scope, since this repository is simply an implementation of the existing function.
+
+## Bug Fixes
+
+If you find that the FNV-1 hash is improperly implemented please create an issue and let us know.
+If you find that a certain method causes memory leaks, please report so showing your profiling results.
+If you experience a crash of any kind, please create an issue and include your code.
 
 ## Performance
 
