@@ -67,3 +67,19 @@ jobs:
       - uses: MaxDesiatov/swift-windows-action@v1
         with:
           swift-version: "5.4.3"
+
+  test-macos-11:
+    # macOS Big Sur 11.5
+    runs-on: macos-11
+
+    steps:
+      # Checkout the repository
+      - uses: actions/checkout@v2
+        
+      # Build the package, including tests
+      - name: Build tests
+        run: swift build --build-tests
+
+      # Run the package test suite
+      - name: Test
+        run: swift test
