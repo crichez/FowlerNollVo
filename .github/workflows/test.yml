@@ -1,6 +1,6 @@
-# A workflow that builds the package on all supported platforms
+# A workflow that builds & tests the package on all supported platforms
 
-name: build
+name: test
 
 # Run the workflow for every pull request for the main branch, or manually
 on:
@@ -30,3 +30,7 @@ jobs:
       # Tries to build the package, including tests
       - name: build
         run: swift build --build-tests
+        
+      # Tries to run the package test suite
+      - name: test
+        run: swift test
