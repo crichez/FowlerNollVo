@@ -13,10 +13,30 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
+  test-ubuntu-20.04:
     # The type of runner that the job will run on
     runs-on: ubuntu-20.04
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Changes the working directory to the package directory
+      - name: change working directory
+        run: cd $GITHUB_WORKSPACE
+
+      # Tries to build the package, including tests
+      - name: build
+        run: swift build --build-tests
+        
+      # Tries to run the package test suite
+      - name: test
+        run: swift test
+
+  test-ubuntu-18.04:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-18.04
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
