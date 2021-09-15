@@ -1,39 +1,18 @@
 # A workflow that builds & tests the package on all supported platforms
 
-name: test
+name: Test
 
 # Run the workflow for every pull request for the main branch, or manually
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  test-ubuntu-20.04:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-20.04
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-
-      # Changes the working directory to the package directory
-      - name: change working directory
-        run: cd $GITHUB_WORKSPACE
-
-      # Tries to build the package, including tests
-      - name: build
-        run: swift build --build-tests
-        
-      # Tries to run the package test suite
-      - name: test
-        run: swift test
-
   test-ubuntu-18.04:
     # The type of runner that the job will run on
     runs-on: ubuntu-18.04
@@ -44,13 +23,13 @@ jobs:
       - uses: actions/checkout@v2
 
       # Changes the working directory to the package directory
-      - name: change working directory
+      - name: Change Working Directory
         run: cd $GITHUB_WORKSPACE
 
       # Tries to build the package, including tests
-      - name: build
+      - name: Build
         run: swift build --build-tests
         
       # Tries to run the package test suite
-      - name: test
+      - name: Test
         run: swift test
