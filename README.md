@@ -59,8 +59,8 @@ You can learn more about how to conform to these protocols by reading inline doc
 The other modules are actual implementations of FNV-1 & FNV-1a with 32 & 64 bit digests.
 
 ```swift
-// Initialize a hasher in a single call.
-let hasher = FNV64a()
+// Initialize a hasher in a single call
+var hasher = FNV64a()
 // Hash any FNVHashable value
 hasher.combine(12)
 hasher.combine("this is a string!")
