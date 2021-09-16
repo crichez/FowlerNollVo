@@ -13,7 +13,7 @@ start from scratch. We'll make sure to ask follow-up questions if we are missing
 any information.
 
 When submitting issues, it's important to remember that this project is an *inplementation*
-of FNV-1. This means changes to the hash function itself are out of scope, and running
+of FNV-1. This means changes to the hash function itself are out of scope.
 
 ## Running the Test Suite
 
