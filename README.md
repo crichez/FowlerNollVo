@@ -13,6 +13,9 @@ This project is tested in continuous integration on the following platforms:
 * Ubuntu 20.04
 * Windows Server 2019
 * macOS 11.5
+* iOS 14.5
+* tvOS 14.5
+* watchOS 7.4
 
 All pull requests to the `main` branch will automatically be tested on all supported platforms.
 All tests must pass to committed to the main branch.
