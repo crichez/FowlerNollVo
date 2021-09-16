@@ -94,7 +94,7 @@ jobs:
 
       # Build for watchOS
       - name: Build watchOS
-        run: xcodebuild -scheme FowlerNollVo-Package -destination "platform=watchOS Simulator,name=Apple Watch SE - 40mm,OS=7.4"
+        run: xcodebuild -scheme FowlerNollVo-Package -destination "platform=watchOS Simulator,name=Apple Watch Series 6 - 44mm,OS=7.4"
 
       # Test on watchOS
       - name: Test watchOS
