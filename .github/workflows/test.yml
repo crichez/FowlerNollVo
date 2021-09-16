@@ -68,7 +68,7 @@ jobs:
         with:
           swift-version: "5.4.3"
 
-  test-macos-11:
+  test-apple-platforms:
     # macOS Big Sur 11.5
     runs-on: macos-11
 
@@ -76,10 +76,46 @@ jobs:
       # Checkout the repository
       - uses: actions/checkout@v2
         
-      # Build the package, including tests
-      - name: Build tests
-        run: swift build --build-tests
+      # Build the package for macOS
+      - name: Build macOS
+        run: swift build
 
-      # Run the package test suite
-      - name: Test
+      # Run the package test suite for macOS
+      - name: Test macOS
         run: swift test
+
+      # Build for iOS
+      - name: Build iOS
+        run: xcodebuild \
+          -scheme FowlerNollVo-Package \
+          -destination platform="iOS Simulator",name="iPhone 12",OS=14.5
+
+      # Test on iOS
+      - name: Test iOS
+        run: xcodebuild test \
+          -scheme FowlerNollVo-Package
+          -destination platform="iOS Simulator",name:"iPhone 12",OS=14.5
+
+      # Build for watchOS
+      - name: Build watchOS
+        run: xcodebuild \
+          -scheme FowlerNollVo-Package
+          -destination platform="watchOS Simulator",name:"Apple Watch SE - 40mm",OS=7.4
+
+      # Test on watchOS
+      - name: Test watchOS
+        run: xcodebuild test \
+          - scheme FowlerNollVo-Package
+          - destination platform="watchOS Simulator",name:"Apple Watch SE - 40mm",OS=7.4
+
+      # Build for tvOS
+      - name: Build tvOS
+        run: xcodebuild \
+          -scheme FowlerNollVo-Package
+          -destination platform="tvOS Simulator",name:"Apple TV 4K",OS=14.5
+
+      # Test on tvOS
+      - name: Test tvOS
+        run: xcodebuild test \
+          -scheme FowlerNollVo-Package
+          -destination platform="tvOS Simulator",name:"Apple TV 4K",OS=14.5
