@@ -17,9 +17,6 @@ This project is tested in continuous integration on the following platforms:
 * tvOS 15.0
 * watchOS 8.0
 
-All pull requests to the `main` branch will automatically be tested on all supported platforms.
-All tests must pass to committed to the main branch.
-
 ## Installation
 
 `FowlerNollVo` is a [Swift Package Manager](https://github.com/apple/swift-package-manager) project.
@@ -30,7 +27,7 @@ To depend on it, include it in your `Package.swift` dependencies:
 .package(
     name: "FowlerNollVo", 
     url: "https://github.com/crichez/swift-fowler-noll-vo",
-    .upToNextMinor(from: "0.0.1")),
+    .upToNextMinor(from: "0.1.0")),
 ```
 
 **All versions below 1.0.0 are considered pre-release.**
@@ -39,22 +36,9 @@ To avoid this, use the `.upToNextMinor(from:)` version method in your package ma
 like in the example above. Once the project graduates to `1.0.0`, 
 regular semantic versioning rules will apply.
 
-## Modules
+## `FNVHashable`
 
-This package exposes 5 modules:
-* `FowlerNollVo`
-* `FNV32`
-* `FNV32a`
-* `FNV64`
-* `FNV64a`
-
-### `FowlerNollVo`
-
-The `FowlerNollVo` module is at the root of the dependency tree. It defines 2 protocols:
-* `FNVHashable`
-* `FNVHasher`
-
-This module intends to closely mirror the Swift standard library `Hashable` implementation.
+This protocol intends to closely mirror the Swift standard library `Hashable` protocol.
 You can make your custom types conform to `FNVHashable` to hash them with a `FNVHasher`.
 
 The code looks almost exactly the same:
@@ -91,18 +75,22 @@ extension UUID: FNVHashable {
 }
 ```
 
-You can learn more about how to conform to these protocols by reading inline documentation.
+## Hashers
 
-### Other Modules
+The following hasher types are built-in:
+* `FNV1Hasher`
+* `FNV1aHasher`
 
-The other modules are actual implementations of FNV-1 & FNV-1a with 32 & 64 bit digests.
+The old `FNV1Hasher` is considered deprecated by the creators, but is included anyway.
+These types are generic over a `FNVDigest`.
+
+### Usage
 
 ```swift
 import FowlerNollVo
-import FNV64a
 
 // Initialize a hasher in a single call
-var hasher = FNV64a()
+var hasher = FNV1aHasher<UInt64>()
 // Hash any FNVHashable value
 hasher.combine(12)
 hasher.combine("this is a string!")
@@ -111,6 +99,35 @@ hasher.combine(MyCustomType())
 let digest: UInt64 = hasher.digest
 ```
 
-Although only four functions are provided, you may implement others using a different digest size. 
-Currently, the `FNVHasher` protocol requires the `Digest` to conform to `UnsignedInteger`.
-This restriction is there for calculation simplicity, but feel free to experiment and pull request!
+### `FNVDigest`
+
+All digests must conform to the `FNVDigest` protocol. This protocol requires only the basic
+values and operations necessary to work with the built-in hash functions.
+
+The following code is the actual protocol definition, and the implementation for `UInt32`.
+
+```swift
+/// A type that can be used as a digest by the Fowler-Noll-Vo hash function.
+public protocol FNVDigest {
+    /// The `fnv_prime` value for this digest size.
+    static var fnvPrime: Self { get }
+    
+    /// The `offset_basis` value for this digest size.
+    static var fnvOffset: Self { get }
+    
+    /// An operator that performs a bitwise `XOR` between this digest and an individual byte.
+    static func ^ (lhs: Self, rhs: UInt8) -> Self
+    
+    /// An operator that performs an unchecked multiplication on two digests.
+    static func &* (lhs: Self, rhs: Self) -> Self
+}
+
+extension UInt32: FNVDigest {
+    public static var fnvPrime: UInt32 { 16777619 }
+    public static var fnvOffset: UInt32 { 2166136261 }
+    
+    public static func ^ (lhs: UInt32, rhs: UInt8) -> UInt32 {
+        lhs ^ UInt32(truncatingIfNeeded: rhs)
+    }
+}
+```

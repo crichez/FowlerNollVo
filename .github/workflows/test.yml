@@ -86,24 +86,24 @@ jobs:
 
       # Build for iOS
       - name: Build iOS
-        run: xcodebuild -scheme FowlerNollVo-Package -destination "platform=iOS Simulator,name=iPhone 12,OS=15.0"
+        run: xcodebuild -scheme FowlerNollVo -destination "platform=iOS Simulator,name=iPhone 12,OS=15.0"
 
       # Test on iOS
       - name: Test iOS
-        run: xcodebuild test -scheme FowlerNollVo-Package -destination "platform=iOS Simulator,name=iPhone 12,OS=15.0"
+        run: xcodebuild test -scheme FowlerNollVo -destination "platform=iOS Simulator,name=iPhone 12,OS=15.0"
 
       # Build for watchOS
       - name: Build watchOS
-        run: xcodebuild -scheme FowlerNollVo-Package -destination "platform=watchOS Simulator,name=Apple Watch Series 6 - 44mm,OS=8.0"
+        run: xcodebuild -scheme FowlerNollVo -destination "platform=watchOS Simulator,name=Apple Watch Series 6 - 44mm,OS=8.0"
 
       # Test on watchOS
       - name: Test watchOS
-        run: xcodebuild test -scheme FowlerNollVo-Package -destination "platform=watchOS Simulator,name=Apple Watch Series 6 - 44mm,OS=8.0"
+        run: xcodebuild test -scheme FowlerNollVo -destination "platform=watchOS Simulator,name=Apple Watch Series 6 - 44mm,OS=8.0"
 
       # Build for tvOS
       - name: Build tvOS
-        run: xcodebuild -scheme FowlerNollVo-Package -destination "platform=tvOS Simulator,name=Apple TV 4K,OS=15.0"
+        run: xcodebuild -scheme FowlerNollVo -destination "platform=tvOS Simulator,name=Apple TV 4K,OS=15.0"
 
       # Test on tvOS
       - name: Test tvOS
-        run: xcodebuild test -scheme FowlerNollVo-Package -destination "platform=tvOS Simulator,name=Apple TV 4K,OS=15.0"
+        run: xcodebuild test -scheme FowlerNollVo -destination "platform=tvOS Simulator,name=Apple TV 4K,OS=15.0"
