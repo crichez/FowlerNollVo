@@ -13,16 +13,16 @@ This project is tested in continuous integration on the following platforms:
 * Ubuntu 20.04
 * Windows Server 2019
 * macOS 11.5
-* iOS 14.5
-* tvOS 14.5
-* watchOS 7.4
+* iOS 15.0
+* tvOS 15.0
+* watchOS 8.0
 
 All pull requests to the `main` branch will automatically be tested on all supported platforms.
 All tests must pass to committed to the main branch.
 
 ## Installation
 
-`FowlerNollVo` is [Swift Package Manager](https://github.com/apple/swift-package-manager) project.
+`FowlerNollVo` is a [Swift Package Manager](https://github.com/apple/swift-package-manager) project.
 To depend on it, include it in your `Package.swift` dependencies:
 
 ```swift
