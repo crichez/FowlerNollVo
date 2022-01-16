@@ -157,7 +157,8 @@ extension Optional: FNVHashable where Wrapped: FNVHashable {
         case .some(let value):
             hasher.combine(value)
         case .none:
-            return
+            // Pass an empty array to mutate the digest without data
+            hasher.combine([])
         }
     }
 }

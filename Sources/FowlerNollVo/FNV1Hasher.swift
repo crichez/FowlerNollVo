@@ -20,7 +20,17 @@ public struct FNV1Hasher<Digest: FNVDigest>: FNVHasher {
     
     /// Feeds the provided data to the hasher.
     public mutating func combine<Data>(_ data: Data) where Data : Sequence, Data.Element == UInt8 {
-        for byte in data {
+        // Get an iterator for the data sequence
+        var iterator = data.makeIterator()
+        // Get the first byte of the sequence
+        guard let firstByte = iterator.next() else {
+            // If the sequence is empty, multiply by fnv_prime
+            digest = digest &* .fnvPrime; return
+        }
+        // Combine the first byte manually
+        digest = (digest &* .fnvPrime) ^ firstByte
+        // Iterate over the rest of the bytes in the sequence
+        while let byte = iterator.next() {
             digest = (digest &* .fnvPrime) ^ byte
         }
     }
