@@ -74,4 +74,16 @@ class FNV1aHasherTests: XCTestCase {
             XCTAssertEqual(hasher.digest, output)
         }
     }
+    
+    func testUInt128() throws {
+        let input = "test"
+        var hasher = FNV1aHasher<UInt128>()
+        input.hash(into: &hasher)
+        let output = hasher.digest
+        for _ in 1 ... 10 {
+            var hasher = FNV1aHasher<UInt128>()
+            input.hash(into: &hasher)
+            XCTAssertEqual(hasher.digest, output)
+        }
+    }
 }

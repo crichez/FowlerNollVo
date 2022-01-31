@@ -37,3 +37,20 @@ extension UInt64: FNVDigest {
         lhs ^ UInt64(truncatingIfNeeded: rhs)
     }
 }
+
+/// A 128-bit unsigned integer based on a double-width `UInt64`.
+public typealias UInt128 = DoubleWidth<UInt64>
+
+extension UInt128: FNVDigest {
+    public static var fnvPrime: DoubleWidth<UInt64> {
+        DoubleWidth<UInt64>(0x0000000001000000, 0x000000000000013B)
+    }
+    
+    public static var fnvOffset: DoubleWidth<UInt64> {
+        DoubleWidth<UInt64>(0x6c62272e07bb0142, 0x62b821756295c58d)
+    }
+    
+    public static func ^ (lhs: DoubleWidth<UInt64>, rhs: UInt8) -> DoubleWidth<UInt64> {
+        lhs ^ DoubleWidth<UInt64>(rhs)
+    }
+}
