@@ -23,7 +23,7 @@ To depend on it, include it in your `Package.swift` dependencies:
 
 ```swift
 .package(
-    name: "FowlerNollVo:, 
+    name: "FowlerNollVo", 
     url: "https://github.com/crichez/swift-fowler-noll-vo", 
     .upToNextMinor(from: "0.1.0")),
 ```
@@ -66,6 +66,15 @@ The following hasher types are built-in:
 * `FNV256` & `FNV256a`
 * `FNV512` & `FNV512a`
 * `FNV1024` & `FNV1024a`
+
+**Note:** `FNV128` and hashers with larger digests all use `DoubleWidth` 
+from [the swift numerics project](https://github.com/apple/swift-numerics).
+That code was included in this project under its original Apache 2.0 license,
+and is still considered experimental.
+
+Although performance from 32 to 64-bit digests is similar, 
+performance quickly degrades with larger digests. Getting a 1024-bit digest
+from 64 bits of input data takes around 0.33 seconds on a M1 MacBook Pro.
 
 ### Usage
 
