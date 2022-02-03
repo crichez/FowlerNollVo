@@ -13,7 +13,7 @@ public protocol FNVHashable {
     /// 1. By calling ``hash(into:)``  on other ``FNVHashable`` values.
     /// 2. By providing a sequence of bytes to the ``FNVHasher.combine(_:)`` method.
     ///
-    /// The following example makes a custom `struct` conform by individually hashing all of its properties:
+    /// The following example conforms a custom type by individually hashing each stored property:
     /// ```swift
     /// struct CustomType {
     ///     let id: Int
@@ -29,9 +29,9 @@ public protocol FNVHashable {
     ///     }
     /// }
     /// ```
-    /// - Note: You don't need to pass all properties to the hasher, only the ones you want to include to identify an instance.
     ///
-    /// This next example enables conformance for a type provided by another framework: `Foundation.UUID`.
+    /// The following example conforms `Foundation.UUID`. Since `UUID` is a trivial type,
+    /// the individual bytes of the value are fed to the hasher instead of the value itself.
     /// ```swift
     /// import Foundation
     ///
@@ -43,12 +43,6 @@ public protocol FNVHashable {
     ///     }
     /// }
     /// ```
-    /// The use of `withUnsafeBytes` may be intimidating, but it works here since `UUID` is a trivial type that simply stores 16 bytes.
-    /// We can access its underlying memory as a sequence of bytes.
-    /// In fact, this is how all built-in `Swift` ``BinaryInteger`` types conform to `FNVHashable`.
-    ///
-    /// Note this wouldn't work with `NSUUID`, since it is a reference type.
-    /// As long as your method can provide a stable sequence of 8-bit unsigned integers ("bytes") to the hasher, it will be happy!
     func hash<Hasher>(into hasher: inout Hasher) where Hasher : FNVHasher
 }
 
