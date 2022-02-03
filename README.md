@@ -25,7 +25,7 @@ To depend on it, include it in your `Package.swift` dependencies:
 .package(
     name: "FowlerNollVo", 
     url: "https://github.com/crichez/swift-fowler-noll-vo", 
-    .upToNextMinor(from: "0.1.0")),
+    .upToNextMinor(from: "0.2.0")),
 ```
 
 **All versions below 1.0.0 are considered pre-release.**
