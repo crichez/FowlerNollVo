@@ -43,6 +43,26 @@ class HashStabilityTests: XCTestCase {
         }
     }
     
+    #if swift(>=5.4) && !(os(macOS) || targetEnvironment(macCatalyst) && arch(x86_64))
+    /// An array of randomly generated `FNVHashable` values.
+    let inputs: [FNVHashable] = [
+        "this is a test \u{10424}", String?.none,
+        Bool.random(), Bool?.none,
+        Int.random(in: .min ... .max), Int?.none,
+        Int8.random(in: .min ... .max), Int8?.none,
+        Int16.random(in: .min ... .max), Int16?.none,
+        Int32.random(in: .min ... .max), Int32?.none,
+        Int64.random(in: .min ... .max), Int64?.none,
+        UInt.random(in: .min ... .max), UInt?.none,
+        UInt8.random(in: .min ... .max), UInt8?.none,
+        UInt16.random(in: .min ... .max), UInt16?.none,
+        UInt32.random(in: .min ... .max), UInt32?.none,
+        UInt64.random(in: .min ... .max), UInt64?.none,
+        Double.random(in: .leastNonzeroMagnitude ... .greatestFiniteMagnitude), Double?.none,
+        Float.random(in: .leastNonzeroMagnitude ... .greatestFiniteMagnitude), Float?.none,
+        Float16.random(in: .leastNonzeroMagnitude ... .greatestFiniteMagnitude), Float16?.none
+    ]
+    #else
     /// An array of randomly generated `FNVHashable` values.
     let inputs: [FNVHashable] = [
         "this is a test \u{10424}", String?.none,
@@ -60,6 +80,8 @@ class HashStabilityTests: XCTestCase {
         Double.random(in: .leastNonzeroMagnitude ... .greatestFiniteMagnitude), Double?.none,
         Float.random(in: .leastNonzeroMagnitude ... .greatestFiniteMagnitude), Float?.none,
     ]
+    #endif
+    
     
     /// Calls `checkStability(of:withHasher:)` for each input in `inputs` and every hasher type.
     ///
