@@ -59,6 +59,7 @@ class FloatingPointHashingTests: XCTestCase {
     }
     
 #if swift(>=5.4) && !((os(macOS) || targetEnvironment(macCatalyst)) && arch(x86_64))
+    @available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
     func testFloat16() {
         let type = Float16.self
         test(type: type, hasher: FNV32.self)
