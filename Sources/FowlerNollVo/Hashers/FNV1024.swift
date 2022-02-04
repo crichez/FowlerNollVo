@@ -5,52 +5,59 @@
 //  Created by Christopher Richez on 2/2/22.
 //
 
-extension DoubleWidth where Base == DoubleWidth<DoubleWidth<DoubleWidth<UInt64>>> {
-    fileprivate static var fnvPrime: DoubleWidth<DoubleWidth<DoubleWidth<DoubleWidth<UInt64>>>> {
-        DoubleWidth<DoubleWidth<DoubleWidth<DoubleWidth<UInt64>>>>(
-            DoubleWidth<DoubleWidth<DoubleWidth<UInt64>>>(
-                DoubleWidth<DoubleWidth<UInt64>>(
-                    DoubleWidth<UInt64>(0x0000000000000000, 0x0000000000000000),
-                    DoubleWidth<UInt64>(0x0000000000000000, 0x0000000000000000)
+/// A 1024-bit digest that behaves like an unsigned integer.
+///
+/// `DoubleWidth` is from the [Swift numerics](https://github.com/apple/swift-numerics)
+/// open-source project. Expect all operations on a `Digest1024` value to perform
+/// significantly worse than operations on `UInt64` and other standard library native integers.
+public typealias Digest1024 = DoubleWidth<Digest512>
+
+extension Digest1024 {
+    fileprivate static var fnvPrime: Digest1024 {
+        Digest1024(
+            Digest512(
+                Digest256(
+                    Digest128(0x0000000000000000, 0x0000000000000000),
+                    Digest128(0x0000000000000000, 0x0000000000000000)
                 ),
-                DoubleWidth<DoubleWidth<UInt64>>(
-                    DoubleWidth<UInt64>(0x0000000000000000, 0x0000010000000000),
-                    DoubleWidth<UInt64>(0x0000000000000000, 0x0000000000000000)
+                Digest256(
+                    Digest128(0x0000000000000000, 0x0000010000000000),
+                    Digest128(0x0000000000000000, 0x0000000000000000)
                 )
             ),
-            DoubleWidth<DoubleWidth<DoubleWidth<UInt64>>>(
-                DoubleWidth<DoubleWidth<UInt64>>(
-                    DoubleWidth<UInt64>(0x0000000000000000, 0x0000000000000000),
-                    DoubleWidth<UInt64>(0x0000000000000000, 0x0000000000000000)
+            Digest512(
+                Digest256(
+                    Digest128(0x0000000000000000, 0x0000000000000000),
+                    Digest128(0x0000000000000000, 0x0000000000000000)
                 ),
-                DoubleWidth<DoubleWidth<UInt64>>(
-                    DoubleWidth<UInt64>(0x0000000000000000, 0x0000000000000000),
-                    DoubleWidth<UInt64>(0x0000000000000000, 0x000000000000018D)
+                Digest256(
+                    Digest128(0x0000000000000000, 0x0000000000000000),
+                    Digest128(0x0000000000000000, 0x000000000000018D)
                 )
             )
         )
     }
     
-    fileprivate static var fnvOffset: DoubleWidth<DoubleWidth<DoubleWidth<DoubleWidth<UInt64>>>> {
-        DoubleWidth<DoubleWidth<DoubleWidth<DoubleWidth<UInt64>>>>(
-            DoubleWidth<DoubleWidth<DoubleWidth<UInt64>>>(
-                DoubleWidth<DoubleWidth<UInt64>>(
-                    DoubleWidth<UInt64>(0x0000000000000000, 0x005f7a76758ecc4d),
-                    DoubleWidth<UInt64>(0x32e56d5a591028b7, 0x4b29fc4223fdada1)
+    fileprivate static var fnvOffset: Digest1024 {
+        Digest1024(
+            Digest512(
+                Digest256(
+                    Digest128(0x0000000000000000, 0x005f7a76758ecc4d),
+                    Digest128(0x32e56d5a591028b7, 0x4b29fc4223fdada1)
                 ),
-                DoubleWidth<DoubleWidth<UInt64>>(
-                    DoubleWidth<UInt64>(0x6c3bf34eda3674da, 0x9a21d90000000000),
-                    DoubleWidth<UInt64>(0x0000000000000000, 0x0000000000000000)
+                Digest256(
+                    Digest128(0x6c3bf34eda3674da, 0x9a21d90000000000),
+                    Digest128(0x0000000000000000, 0x0000000000000000)
                 )
             ),
-            DoubleWidth<DoubleWidth<DoubleWidth<UInt64>>>(
-                DoubleWidth<DoubleWidth<UInt64>>(
-                    DoubleWidth<UInt64>(0x0000000000000000, 0x0000000000000000),
-                    DoubleWidth<UInt64>(0x0000000000000000, 0x000000000004c6d7)
+            Digest512(
+                Digest256(
+                    Digest128(0x0000000000000000, 0x0000000000000000),
+                    Digest128(0x0000000000000000, 0x000000000004c6d7)
                 ),
-                DoubleWidth<DoubleWidth<UInt64>>(
-                    DoubleWidth<UInt64>(0xeb6e73802734510a, 0x555f256cc005ae55),
-                    DoubleWidth<UInt64>(0x6bde8cc9c6a93b21, 0xaff4b16c71ee90b3)
+                Digest256(
+                    Digest128(0xeb6e73802734510a, 0x555f256cc005ae55),
+                    Digest128(0x6bde8cc9c6a93b21, 0xaff4b16c71ee90b3)
                 )
             )
         )
@@ -58,9 +65,9 @@ extension DoubleWidth where Base == DoubleWidth<DoubleWidth<DoubleWidth<UInt64>>
 }
 
 
-/// A `FNV-1` hasher with a `DoubleWidth<DoubleWidth<DoubleWidth<UInt64>>>` digest.
+/// A `FNV-1` hasher with a `Digest1024` digest.
 public struct FNV1024: FNVHasher {
-    public private(set) var digest: DoubleWidth<DoubleWidth<DoubleWidth<DoubleWidth<UInt64>>>>
+    public private(set) var digest: Digest1024
     
     public init() {
         self.digest = .fnvOffset
@@ -88,9 +95,9 @@ public struct FNV1024: FNVHasher {
     }
 }
 
-/// A `FNV-1a` hasher with a `DoubleWidth<DoubleWidth<DoubleWidth<UInt64>>>` digest.
+/// A `FNV-1a` hasher with a `Digest1024` digest.
 public struct FNV1024a: FNVHasher {
-    public private(set) var digest: DoubleWidth<DoubleWidth<DoubleWidth<DoubleWidth<UInt64>>>>
+    public private(set) var digest: Digest1024
     
     public init() {
         self.digest = .fnvOffset

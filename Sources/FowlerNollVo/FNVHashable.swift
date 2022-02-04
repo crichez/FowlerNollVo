@@ -58,14 +58,8 @@ extension Float: FNVHashable {
     }
 }
 
-#if arch(arm)
-@available(macOS 11, *)
-@available(macCatalyst 14, *)
-@available(macOSApplicationExtension 11, *)
-@available(macCatalystApplicationExtension 14, *)
-@available(iOS 14, *)
-@available(watchOS 7, *)
-@available(tvOS 14, *)
+#if swift(>=5.4) && !((os(macOS) || targetEnvironment(macCatalyst)) && arch(x86_64))
+@available(macOS 11, iOS 14, watchOS 7, tvOS 14, *)
 extension Float16: FNVHashable {
     public func hash<Hasher>(into hasher: inout Hasher) where Hasher : FNVHasher {
         hasher.combine(isZero ? Float16.zero.bitPattern : bitPattern)

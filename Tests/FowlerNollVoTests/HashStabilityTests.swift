@@ -43,7 +43,6 @@ class HashStabilityTests: XCTestCase {
         }
     }
     
-    /// An array of randomly generated `FNVHashable` values.
     let inputs: [FNVHashable] = [
         "this is a test \u{10424}", String?.none,
         Bool.random(), Bool?.none,
@@ -80,4 +79,23 @@ class HashStabilityTests: XCTestCase {
             checkStability(of: input, withHasher: FNV1024a.self)
         }
     }
+    
+#if swift(>=5.4) && !((os(macOS) || targetEnvironment(macCatalyst)) && arch(x86_64))
+    @available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
+    func testFloat16() {
+        let input = Float16.random(in: .leastNonzeroMagnitude ... .greatestFiniteMagnitude)
+        checkStability(of: input, withHasher: FNV32a.self)
+        checkStability(of: input, withHasher: FNV64.self)
+        checkStability(of: input, withHasher: FNV64a.self)
+        checkStability(of: input, withHasher: FNV128.self)
+        checkStability(of: input, withHasher: FNV128a.self)
+        checkStability(of: input, withHasher: FNV256.self)
+        checkStability(of: input, withHasher: FNV256a.self)
+        checkStability(of: input, withHasher: FNV512.self)
+        checkStability(of: input, withHasher: FNV512a.self)
+        checkStability(of: input, withHasher: FNV1024.self)
+        checkStability(of: input, withHasher: FNV1024a.self)
+    }
+#endif
+
 }

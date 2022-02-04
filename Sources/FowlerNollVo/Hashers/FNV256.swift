@@ -5,24 +5,32 @@
 //  Created by Christopher Richez on 2/2/22.
 //
 
-extension DoubleWidth where Base == DoubleWidth<UInt64> {
-    fileprivate static var fnvPrime: DoubleWidth<DoubleWidth<UInt64>> {
-        DoubleWidth<DoubleWidth<UInt64>>(
-            DoubleWidth<UInt64>(0x0000000000000000, 0x0000010000000000),
-            DoubleWidth<UInt64>(0x0000000000000000, 0x0000000000000163)
+/// A 256-bit digest that behaves like an unsigned integer.
+///
+/// `DoubleWidth` is from the [Swift numerics](https://github.com/apple/swift-numerics)
+/// open-source project. Expect all operations on a `Digest256` value to perform slighly worse
+/// than operations on `UInt64` and other standard library native integers.
+public typealias Digest256 = DoubleWidth<Digest128>
+
+extension Digest256 {
+    fileprivate static var fnvPrime: Digest256 {
+        Digest256(
+            Digest128(0x0000000000000000, 0x0000010000000000),
+            Digest128(0x0000000000000000, 0x0000000000000163)
         )
     }
-    fileprivate static var fnvOffset: DoubleWidth<DoubleWidth<UInt64>> {
-        DoubleWidth<DoubleWidth<UInt64>>(
-            DoubleWidth<UInt64>(0xdd268dbcaac55036, 0x2d98c384c4e576cc),
-            DoubleWidth<UInt64>(0xc8b1536847b6bbb3, 0x1023b4c8caee0535)
+    
+    fileprivate static var fnvOffset: Digest256 {
+        Digest256(
+            Digest128(0xdd268dbcaac55036, 0x2d98c384c4e576cc),
+            Digest128(0xc8b1536847b6bbb3, 0x1023b4c8caee0535)
         )
     }
 }
 
-/// A `FNV-1` hasher with a `DoubleWidth<DoubleWidth<UInt64>>` digest.
+/// A `FNV-1` hasher with a `Digest256` digest.
 public struct FNV256: FNVHasher {
-    public private(set) var digest: DoubleWidth<DoubleWidth<UInt64>>
+    public private(set) var digest: Digest256
     
     public init() {
         self.digest = .fnvOffset
@@ -50,9 +58,9 @@ public struct FNV256: FNVHasher {
     }
 }
 
-/// A `FNV-1a` hasher with a `DoubleWidth<DoubleWidth<UInt64>>` digest.
+/// A `FNV-1a` hasher with a `Digest256` digest.
 public struct FNV256a: FNVHasher {
-    public private(set) var digest: DoubleWidth<DoubleWidth<UInt64>>
+    public private(set) var digest: Digest256
     
     public init() {
         self.digest = .fnvOffset
