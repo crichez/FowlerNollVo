@@ -5,19 +5,26 @@
 //  Created by Christopher Richez on 2/2/22.
 //
 
-extension DoubleWidth where Base == UInt64 {
-    fileprivate static var fnvPrime: DoubleWidth<UInt64> {
-        DoubleWidth<UInt64>(0x0000000001000000, 0x000000000000013B)
+/// A 128-bit digest that behaves like an unsigned integer.
+///
+/// `DoubleWidth` is from the [Swift numerics](https://github.com/apple/swift-numerics)
+/// open-source project. Expect all operations on a `Digest128` value to perform slighly worse
+/// than operations on `UInt64` and other standard library native integers.
+public typealias Digest128 = DoubleWidth<UInt64>
+
+extension Digest128 {
+    fileprivate static var fnvPrime: Digest128 {
+        Digest128(0x0000000001000000, 0x000000000000013B)
     }
     
-    fileprivate static var fnvOffset: DoubleWidth<UInt64> {
-        DoubleWidth<UInt64>(0x6c62272e07bb0142, 0x62b821756295c58d)
+    fileprivate static var fnvOffset: Digest128 {
+        Digest128(0x6c62272e07bb0142, 0x62b821756295c58d)
     }
 }
 
-/// A `FNV-1` hasher with a `DoubleWidth<UInt64>` digest.
+/// A `FNV-1` hasher with a `Digest128` digest.
 public struct FNV128: FNVHasher {
-    public private(set) var digest: DoubleWidth<UInt64>
+    public private(set) var digest: Digest128
     
     public init() {
         self.digest = .fnvOffset
@@ -45,9 +52,9 @@ public struct FNV128: FNVHasher {
     }
 }
 
-/// A `FNV-1a` hasher with a `DoubleWidth<UInt64>` digest.
+/// A `FNV-1a` hasher with a `Digest128` digest.
 public struct FNV128a: FNVHasher {
-    public private(set) var digest: DoubleWidth<UInt64>
+    public private(set) var digest: Digest128
     
     public init() {
         self.digest = .fnvOffset
