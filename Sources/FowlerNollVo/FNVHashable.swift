@@ -48,13 +48,13 @@ public protocol FNVHashable {
 
 extension Double: FNVHashable {
     public func hash<Hasher>(into hasher: inout Hasher) where Hasher : FNVHasher {
-        withUnsafeBytes(of: self) { hasher.combine($0) }
+        hasher.combine(isZero ? Double.zero.bitPattern : bitPattern)
     }
 }
 
 extension Float: FNVHashable {
     public func hash<Hasher>(into hasher: inout Hasher) where Hasher : FNVHasher {
-        withUnsafeBytes(of: self) { hasher.combine($0) }
+        hasher.combine(isZero ? Float.zero.bitPattern : bitPattern)
     }
 }
 
@@ -62,7 +62,7 @@ extension Float: FNVHashable {
 @available(macOS 11, iOS 14, watchOS 7, tvOS 14, *)
 extension Float16: FNVHashable {
     public func hash<Hasher>(into hasher: inout Hasher) where Hasher : FNVHasher {
-        withUnsafeBytes(of: self) { hasher.combine($0) }
+        hasher.combine(isZero ? Float16.zero.bitPattern : bitPattern)
     }
 }
 #endif
