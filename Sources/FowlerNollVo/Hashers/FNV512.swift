@@ -5,7 +5,7 @@
 //  Created by Christopher Richez on 2/2/22.
 //
 
-/// A 128-bit digest that behaves like an unsigned integer.
+/// A 512-bit digest that behaves like an unsigned integer.
 ///
 /// `DoubleWidth` is from the [Swift numerics](https://github.com/apple/swift-numerics)
 /// open-source project. Expect all operations on a `Digest512` value to perform
