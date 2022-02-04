@@ -43,7 +43,7 @@ class HashStabilityTests: XCTestCase {
         }
     }
     
-    #if swift(>=5.4) && !(os(macOS) || targetEnvironment(macCatalyst) && arch(x86_64))
+    #if swift(>=5.4) && !((os(macOS) || targetEnvironment(macCatalyst)) && arch(x86_64))
     /// An array of randomly generated `FNVHashable` values.
     let inputs: [FNVHashable] = [
         "this is a test \u{10424}", String?.none,
