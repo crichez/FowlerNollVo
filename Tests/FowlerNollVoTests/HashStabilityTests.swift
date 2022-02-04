@@ -43,27 +43,6 @@ class HashStabilityTests: XCTestCase {
         }
     }
     
-    #if swift(>=5.4) && !((os(macOS) || targetEnvironment(macCatalyst)) && arch(x86_64))
-    /// An array of randomly generated `FNVHashable` values.
-    let inputs: [FNVHashable] = [
-        "this is a test \u{10424}", String?.none,
-        Bool.random(), Bool?.none,
-        Int.random(in: .min ... .max), Int?.none,
-        Int8.random(in: .min ... .max), Int8?.none,
-        Int16.random(in: .min ... .max), Int16?.none,
-        Int32.random(in: .min ... .max), Int32?.none,
-        Int64.random(in: .min ... .max), Int64?.none,
-        UInt.random(in: .min ... .max), UInt?.none,
-        UInt8.random(in: .min ... .max), UInt8?.none,
-        UInt16.random(in: .min ... .max), UInt16?.none,
-        UInt32.random(in: .min ... .max), UInt32?.none,
-        UInt64.random(in: .min ... .max), UInt64?.none,
-        Double.random(in: .leastNonzeroMagnitude ... .greatestFiniteMagnitude), Double?.none,
-        Float.random(in: .leastNonzeroMagnitude ... .greatestFiniteMagnitude), Float?.none,
-        Float16.random(in: .leastNonzeroMagnitude ... .greatestFiniteMagnitude), Float16?.none
-    ]
-    #else
-    /// An array of randomly generated `FNVHashable` values.
     let inputs: [FNVHashable] = [
         "this is a test \u{10424}", String?.none,
         Bool.random(), Bool?.none,
@@ -80,8 +59,6 @@ class HashStabilityTests: XCTestCase {
         Double.random(in: .leastNonzeroMagnitude ... .greatestFiniteMagnitude), Double?.none,
         Float.random(in: .leastNonzeroMagnitude ... .greatestFiniteMagnitude), Float?.none,
     ]
-    #endif
-    
     
     /// Calls `checkStability(of:withHasher:)` for each input in `inputs` and every hasher type.
     ///
@@ -102,4 +79,23 @@ class HashStabilityTests: XCTestCase {
             checkStability(of: input, withHasher: FNV1024a.self)
         }
     }
+    
+#if swift(>=5.4) && !((os(macOS) || targetEnvironment(macCatalyst)) && arch(x86_64))
+    @available(macOS 11, iOS 14, tvOS 14, watchOS 7, *)
+    func testFloat16() {
+        let input = Float16.random(in: .leastNonzeroMagnitude ... .greatestFiniteMagnitude)
+        checkStability(of: input, withHasher: FNV32a.self)
+        checkStability(of: input, withHasher: FNV64.self)
+        checkStability(of: input, withHasher: FNV64a.self)
+        checkStability(of: input, withHasher: FNV128.self)
+        checkStability(of: input, withHasher: FNV128a.self)
+        checkStability(of: input, withHasher: FNV256.self)
+        checkStability(of: input, withHasher: FNV256a.self)
+        checkStability(of: input, withHasher: FNV512.self)
+        checkStability(of: input, withHasher: FNV512a.self)
+        checkStability(of: input, withHasher: FNV1024.self)
+        checkStability(of: input, withHasher: FNV1024a.self)
+    }
+#endif
+
 }
