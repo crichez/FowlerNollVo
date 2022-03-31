@@ -2,6 +2,7 @@
 
 A FNV-1 implementation in Swift. This package has no dependencies. 
 The minimum swift-tools version to build this package is 5.0.
+[See documentation here](https://crichez.github.io/swift-fowler-noll-vo/documentation/fowlernollvo).
 
 FNV-1 is a simple non-cryptographic hash function. 
 You can learn more about it [here](https://en.wikipedia.org/wiki/Fowler–Noll–Vo_hash_function).
